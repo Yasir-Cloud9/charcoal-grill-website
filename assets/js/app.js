@@ -77,22 +77,25 @@ function renderMenu(menuData, isSearchMode = false) {
     const resultsContainer = document.createElement('div');
     resultsContainer.className = 'space-y-3 md:space-y-4';
 
-    filteredItems.forEach(item => {
+    filteredItems.forEach((item, index) => {
       const itemDiv = document.createElement('div');
-      itemDiv.className = 'p-4 md:p-5 bg-white dark:bg-gray-900 border border-stone-200 dark:border-gray-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200';
+      // Add border-t for all items except the last one
+      const isLastItem = index === filteredItems.length - 1;
+      const borderClass = isLastItem ? '' : 'border-b border-stone-200 dark:border-gray-700';
+      itemDiv.className = `p-4 md:p-5 bg-parchment-card dark:bg-charcoal-card border border-stone-200 dark:border-gray-700 rounded-xl shadow-sm ${borderClass} hover:scale-[1.01] transition-all duration-200 mb-3 md:mb-4`;
 
-      // Item header with name and price
+      // Item header with name and price (price in top-right)
       const itemHeader = document.createElement('div');
       itemHeader.className = 'flex justify-between items-start mb-2';
 
       // Item name
       const itemName = document.createElement('h3');
-      itemName.className = 'text-base md:text-lg font-semibold text-stone-900 dark:text-gray-100 flex-1';
+      itemName.className = 'text-base md:text-lg font-medium text-text-ink dark:text-text-main flex-1 pr-4';
       itemName.textContent = item.name;
 
-      // Item price
+      // Item price (top-right, ember-accent, medium weight)
       const itemPrice = document.createElement('p');
-      itemPrice.className = 'text-base md:text-lg font-bold text-amber-600 dark:text-amber-400 ml-4 flex-shrink-0';
+      itemPrice.className = 'text-lg md:text-xl font-medium text-ember-accent dark:text-ember-accent flex-shrink-0';
       itemPrice.textContent = `€${item.priceEuro.toFixed(2)}`;
 
       itemHeader.appendChild(itemName);
@@ -100,7 +103,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item description
       const itemDesc = document.createElement('p');
-      itemDesc.className = 'text-sm md:text-base text-stone-600 dark:text-gray-300 leading-relaxed';
+      itemDesc.className = 'text-sm text-slate-500 dark:text-slate-400 leading-relaxed mt-1';
       itemDesc.textContent = item.description;
 
       itemDiv.appendChild(itemHeader);
@@ -132,68 +135,77 @@ function renderMenu(menuData, isSearchMode = false) {
 
     // Create category container
     const categoryDiv = document.createElement('div');
-    categoryDiv.className = 'bg-white dark:bg-slate-800 border border-stone-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden';
+    categoryDiv.className = 'bg-parchment-card dark:bg-charcoal-card border border-stone-300 dark:border-gray-700 rounded-lg overflow-hidden mb-4';
 
-    // Create category header (clickable)
+    // Create category header (clickable) - styled like a physical menu folder
     const categoryHeader = document.createElement('div');
-    categoryHeader.className = 'bg-gradient-to-r from-amber-50 to-amber-100/50 dark:from-gray-900 dark:to-gray-900/80 hover:from-amber-100 hover:to-amber-200/50 dark:hover:from-gray-800 dark:hover:to-gray-800/80 cursor-pointer transition-all duration-200 p-4 md:p-5 flex justify-between items-center';
+    categoryHeader.className = 'bg-parchment-card dark:bg-charcoal-card border-b border-stone-200 dark:border-gray-700 hover:bg-stone-50 dark:hover:bg-gray-800/50 cursor-pointer transition-all duration-200 p-4 md:p-5 flex justify-between items-center';
     categoryHeader.setAttribute('data-category-id', category.id);
     
     const headerContent = document.createElement('div');
     headerContent.className = 'flex-1';
     
     const categoryName = document.createElement('h2');
-    categoryName.className = 'text-lg md:text-xl font-bold text-stone-900 dark:text-gray-100';
-    categoryName.textContent = category.name;
+    categoryName.className = 'text-xl md:text-2xl font-medium text-text-ink dark:text-text-main tracking-tight';
+    // Convert to Title Case
+    const titleCaseName = category.name.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
+    categoryName.textContent = titleCaseName;
     
     headerContent.appendChild(categoryName);
     
     if (category.description) {
       const categoryDesc = document.createElement('p');
-      categoryDesc.className = 'text-sm md:text-base text-stone-600 dark:text-gray-300 mt-1';
+      categoryDesc.className = 'text-sm md:text-base text-slate-500 dark:text-slate-400 mt-1';
       categoryDesc.textContent = category.description;
       headerContent.appendChild(categoryDesc);
     }
 
-    // Add expand/collapse icon (arrowhead - right when collapsed, down when expanded)
+    // Add expand/collapse icon (custom SVG arrow with ember-accent color)
+    // Arrow starts pointing down (collapsed state), rotates 180deg when open
     const icon = document.createElement('div');
-    icon.className = 'ml-4 flex-shrink-0 transition-all duration-200';
+    icon.className = 'ml-4 flex-shrink-0';
     icon.setAttribute('data-icon', category.id);
     icon.innerHTML = `
-      <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-icon-state="collapsed">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+      <svg class="w-5 h-5 text-ember-accent dark:text-ember-accent transition-transform duration-300 ease-out" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-icon-state="collapsed" style="transform: rotate(0deg);">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
       </svg>
     `;
 
     categoryHeader.appendChild(headerContent);
     categoryHeader.appendChild(icon);
 
-    // Create items container (initially hidden/collapsed)
+    // Create items container (initially hidden/collapsed) with smooth transition
     const itemsContainer = document.createElement('div');
     itemsContainer.className = 'items-container hidden overflow-hidden transition-all duration-300 ease-out';
     itemsContainer.setAttribute('data-items', category.id);
+    // Set initial collapsed state for smooth transition
+    itemsContainer.style.maxHeight = '0';
+    itemsContainer.style.opacity = '0';
 
     // Create items container (single column)
     const itemsGrid = document.createElement('div');
-    itemsGrid.className = 'p-4 md:p-5 space-y-3 md:space-y-4';
+    itemsGrid.className = 'p-4 md:p-5';
 
     // Create menu items
-    categoryItems.forEach(item => {
+    categoryItems.forEach((item, index) => {
       const itemDiv = document.createElement('div');
-      itemDiv.className = 'p-4 md:p-5 bg-stone-50 dark:bg-gray-900 border border-stone-200 dark:border-gray-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200';
+      // Add border-t for all items except the first one (creates dividers between items)
+      const isFirstItem = index === 0;
+      const borderClass = isFirstItem ? '' : 'border-t border-stone-200 dark:border-gray-700';
+      itemDiv.className = `p-4 md:p-5 bg-parchment-card dark:bg-charcoal-card ${borderClass} hover:scale-[1.01] transition-all duration-200`;
 
-      // Item header with name and price
+      // Item header with name and price (price in top-right)
       const itemHeader = document.createElement('div');
       itemHeader.className = 'flex justify-between items-start mb-2';
 
       // Item name
       const itemName = document.createElement('h3');
-      itemName.className = 'text-base md:text-lg font-semibold text-stone-900 dark:text-slate-100 flex-1';
+      itemName.className = 'text-base md:text-lg font-semibold text-text-ink dark:text-text-main flex-1 pr-4';
       itemName.textContent = item.name;
 
-      // Item price
+      // Item price (top-right, larger, ember-accent)
       const itemPrice = document.createElement('p');
-      itemPrice.className = 'text-base md:text-lg font-bold text-amber-600 dark:text-amber-400 ml-4 flex-shrink-0';
+      itemPrice.className = 'text-lg md:text-xl font-bold text-ember-accent dark:text-ember-accent flex-shrink-0';
       itemPrice.textContent = `€${item.priceEuro.toFixed(2)}`;
 
       itemHeader.appendChild(itemName);
@@ -201,7 +213,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item description
       const itemDesc = document.createElement('p');
-      itemDesc.className = 'text-sm md:text-base text-stone-600 dark:text-slate-400 leading-relaxed';
+      itemDesc.className = 'text-sm md:text-base text-text-muted dark:text-text-muted leading-relaxed';
       itemDesc.textContent = item.description;
 
       itemDiv.appendChild(itemHeader);
@@ -238,19 +250,40 @@ function toggleCategory(categoryId) {
 
   // Toggle visibility with smooth transition
   if (itemsContainer.classList.contains('hidden')) {
+    // Remove hidden class first to measure content
     itemsContainer.classList.remove('hidden');
-    // Change to down arrow (expanded state)
-    svg.innerHTML = `
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
-    `;
+    // Temporarily set max-height to auto to measure
+    itemsContainer.style.maxHeight = 'none';
+    const height = itemsContainer.scrollHeight;
+    // Set to 0 first, then animate to full height
+    itemsContainer.style.maxHeight = '0';
+    itemsContainer.style.opacity = '0';
+    
+    // Trigger reflow
+    void itemsContainer.offsetHeight;
+    
+    // Animate to full height
+    requestAnimationFrame(() => {
+      itemsContainer.style.maxHeight = height + 'px';
+      itemsContainer.style.opacity = '1';
+    });
+    
+    // Rotate arrow 180 degrees (pointing up when expanded)
+    svg.style.transform = 'rotate(180deg)';
     svg.setAttribute('data-icon-state', 'expanded');
   } else {
-    itemsContainer.classList.add('hidden');
-    // Change to right arrow (collapsed state)
-    svg.innerHTML = `
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
-    `;
+    // Collapse: set to 0 before hiding
+    itemsContainer.style.maxHeight = '0';
+    itemsContainer.style.opacity = '0';
+    // Rotate arrow back to 0 degrees (pointing down when collapsed)
+    svg.style.transform = 'rotate(0deg)';
     svg.setAttribute('data-icon-state', 'collapsed');
+    
+    // Hide after transition completes
+    setTimeout(() => {
+      itemsContainer.classList.add('hidden');
+      itemsContainer.style.maxHeight = '';
+    }, 300);
   }
 }
 
