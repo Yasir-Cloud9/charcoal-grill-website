@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set up search functionality
     setupSearch();
+    
+    // Set up dark mode toggle
+    setupDarkMode();
   } else {
     console.error('Menu data not found. Make sure menu-mock-data.js is loaded before app.js.');
   }
@@ -72,30 +75,36 @@ function renderMenu(menuData, isSearchMode = false) {
 
     // Create a container for search results
     const resultsContainer = document.createElement('div');
-    resultsContainer.className = 'space-y-3';
+    resultsContainer.className = 'space-y-3 md:space-y-4';
 
     filteredItems.forEach(item => {
       const itemDiv = document.createElement('div');
-      itemDiv.className = 'p-3 md:p-4 border border-gray-200 rounded-lg bg-white';
+      itemDiv.className = 'p-4 md:p-5 bg-white dark:bg-gray-900 border border-stone-200 dark:border-gray-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200';
+
+      // Item header with name and price
+      const itemHeader = document.createElement('div');
+      itemHeader.className = 'flex justify-between items-start mb-2';
 
       // Item name
       const itemName = document.createElement('h3');
-      itemName.className = 'text-base md:text-lg font-semibold text-gray-900 mb-1';
+      itemName.className = 'text-base md:text-lg font-semibold text-stone-900 dark:text-gray-100 flex-1';
       itemName.textContent = item.name;
-
-      // Item description
-      const itemDesc = document.createElement('p');
-      itemDesc.className = 'text-sm md:text-base text-gray-600 mb-2';
-      itemDesc.textContent = item.description;
 
       // Item price
       const itemPrice = document.createElement('p');
-      itemPrice.className = 'text-base md:text-lg font-bold text-gray-900';
+      itemPrice.className = 'text-base md:text-lg font-bold text-amber-600 dark:text-amber-400 ml-4 flex-shrink-0';
       itemPrice.textContent = `€${item.priceEuro.toFixed(2)}`;
 
-      itemDiv.appendChild(itemName);
+      itemHeader.appendChild(itemName);
+      itemHeader.appendChild(itemPrice);
+
+      // Item description
+      const itemDesc = document.createElement('p');
+      itemDesc.className = 'text-sm md:text-base text-stone-600 dark:text-gray-300 leading-relaxed';
+      itemDesc.textContent = item.description;
+
+      itemDiv.appendChild(itemHeader);
       itemDiv.appendChild(itemDesc);
-      itemDiv.appendChild(itemPrice);
       resultsContainer.appendChild(itemDiv);
     });
 
@@ -123,66 +132,84 @@ function renderMenu(menuData, isSearchMode = false) {
 
     // Create category container
     const categoryDiv = document.createElement('div');
-    categoryDiv.className = 'mb-4 border border-gray-200 rounded-lg overflow-hidden';
+    categoryDiv.className = 'bg-white dark:bg-slate-800 border border-stone-200 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden';
 
     // Create category header (clickable)
     const categoryHeader = document.createElement('div');
-    categoryHeader.className = 'bg-gray-100 hover:bg-gray-200 cursor-pointer transition-colors p-3 md:p-4 flex justify-between items-center';
+    categoryHeader.className = 'bg-gradient-to-r from-amber-50 to-amber-100/50 dark:from-gray-900 dark:to-gray-900/80 hover:from-amber-100 hover:to-amber-200/50 dark:hover:from-gray-800 dark:hover:to-gray-800/80 cursor-pointer transition-all duration-200 p-4 md:p-5 flex justify-between items-center';
     categoryHeader.setAttribute('data-category-id', category.id);
     
     const headerContent = document.createElement('div');
+    headerContent.className = 'flex-1';
+    
     const categoryName = document.createElement('h2');
-    categoryName.className = 'text-lg md:text-xl font-bold text-gray-800';
+    categoryName.className = 'text-lg md:text-xl font-bold text-stone-900 dark:text-gray-100';
     categoryName.textContent = category.name;
     
     headerContent.appendChild(categoryName);
     
     if (category.description) {
       const categoryDesc = document.createElement('p');
-      categoryDesc.className = 'text-sm md:text-base text-gray-600 mt-1';
+      categoryDesc.className = 'text-sm md:text-base text-stone-600 dark:text-gray-300 mt-1';
       categoryDesc.textContent = category.description;
       headerContent.appendChild(categoryDesc);
     }
 
-    // Add expand/collapse icon
-    const icon = document.createElement('span');
-    icon.className = 'text-gray-600 text-xl';
-    icon.textContent = '▶';
+    // Add expand/collapse icon (arrowhead - right when collapsed, down when expanded)
+    const icon = document.createElement('div');
+    icon.className = 'ml-4 flex-shrink-0 transition-all duration-200';
     icon.setAttribute('data-icon', category.id);
+    icon.innerHTML = `
+      <svg class="w-6 h-6 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-icon-state="collapsed">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+      </svg>
+    `;
 
     categoryHeader.appendChild(headerContent);
     categoryHeader.appendChild(icon);
 
     // Create items container (initially hidden/collapsed)
     const itemsContainer = document.createElement('div');
-    itemsContainer.className = 'items-container hidden';
+    itemsContainer.className = 'items-container hidden overflow-hidden transition-all duration-300 ease-out';
     itemsContainer.setAttribute('data-items', category.id);
+
+    // Create items container (single column)
+    const itemsGrid = document.createElement('div');
+    itemsGrid.className = 'p-4 md:p-5 space-y-3 md:space-y-4';
 
     // Create menu items
     categoryItems.forEach(item => {
       const itemDiv = document.createElement('div');
-      itemDiv.className = 'p-3 md:p-4 border-t border-gray-200';
+      itemDiv.className = 'p-4 md:p-5 bg-stone-50 dark:bg-gray-900 border border-stone-200 dark:border-gray-800 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200';
+
+      // Item header with name and price
+      const itemHeader = document.createElement('div');
+      itemHeader.className = 'flex justify-between items-start mb-2';
 
       // Item name
       const itemName = document.createElement('h3');
-      itemName.className = 'text-base md:text-lg font-semibold text-gray-900 mb-1';
+      itemName.className = 'text-base md:text-lg font-semibold text-stone-900 dark:text-slate-100 flex-1';
       itemName.textContent = item.name;
-
-      // Item description
-      const itemDesc = document.createElement('p');
-      itemDesc.className = 'text-sm md:text-base text-gray-600 mb-2';
-      itemDesc.textContent = item.description;
 
       // Item price
       const itemPrice = document.createElement('p');
-      itemPrice.className = 'text-base md:text-lg font-bold text-gray-900';
+      itemPrice.className = 'text-base md:text-lg font-bold text-amber-600 dark:text-amber-400 ml-4 flex-shrink-0';
       itemPrice.textContent = `€${item.priceEuro.toFixed(2)}`;
 
-      itemDiv.appendChild(itemName);
+      itemHeader.appendChild(itemName);
+      itemHeader.appendChild(itemPrice);
+
+      // Item description
+      const itemDesc = document.createElement('p');
+      itemDesc.className = 'text-sm md:text-base text-stone-600 dark:text-slate-400 leading-relaxed';
+      itemDesc.textContent = item.description;
+
+      itemDiv.appendChild(itemHeader);
       itemDiv.appendChild(itemDesc);
-      itemDiv.appendChild(itemPrice);
-      itemsContainer.appendChild(itemDiv);
+      itemsGrid.appendChild(itemDiv);
     });
+
+    itemsContainer.appendChild(itemsGrid);
 
     // Assemble category section
     categoryDiv.appendChild(categoryHeader);
@@ -198,7 +225,7 @@ function renderMenu(menuData, isSearchMode = false) {
 }
 
 /**
- * Toggles the visibility of a category's items
+ * Toggles the visibility of a category's items with smooth animation
  */
 function toggleCategory(categoryId) {
   const itemsContainer = document.querySelector(`[data-items="${categoryId}"]`);
@@ -206,13 +233,24 @@ function toggleCategory(categoryId) {
 
   if (!itemsContainer || !icon) return;
 
-  // Toggle visibility
+  const svg = icon.querySelector('svg');
+  if (!svg) return;
+
+  // Toggle visibility with smooth transition
   if (itemsContainer.classList.contains('hidden')) {
     itemsContainer.classList.remove('hidden');
-    icon.textContent = '▼';
+    // Change to down arrow (expanded state)
+    svg.innerHTML = `
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+    `;
+    svg.setAttribute('data-icon-state', 'expanded');
   } else {
     itemsContainer.classList.add('hidden');
-    icon.textContent = '▶';
+    // Change to right arrow (collapsed state)
+    svg.innerHTML = `
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+    `;
+    svg.setAttribute('data-icon-state', 'collapsed');
   }
 }
 
@@ -276,6 +314,40 @@ function setupSearch() {
       // Show only matching items without categories when searching
       const filteredData = filterMenuData(query);
       renderMenu(filteredData, true);
+    }
+  });
+}
+
+/**
+ * Sets up dark mode toggle functionality
+ */
+function setupDarkMode() {
+  const toggleButton = document.getElementById('dark-mode-toggle');
+  const htmlElement = document.documentElement;
+  
+  if (!toggleButton) {
+    console.error('Dark mode toggle button not found');
+    return;
+  }
+
+  // Check for saved theme preference or default to light
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  if (savedTheme === 'dark') {
+    htmlElement.classList.add('dark');
+  } else {
+    htmlElement.classList.remove('dark');
+  }
+
+  // Toggle dark mode on button click
+  toggleButton.addEventListener('click', function() {
+    const isDark = htmlElement.classList.contains('dark');
+    
+    if (isDark) {
+      htmlElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      htmlElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     }
   });
 }
