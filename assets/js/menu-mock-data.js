@@ -976,7 +976,7 @@ window.menuData = {
       "priceEuro": 13.5,
       "isAvailable": true,
       "displayOrder": 3,
-      "isVegetarian": false,
+      "isVegetarian": true,
       "isVegan": false,
       "isSpicy": true
     },
@@ -988,7 +988,7 @@ window.menuData = {
       "priceEuro": 13.5,
       "isAvailable": true,
       "displayOrder": 4,
-      "isVegetarian": false,
+      "isVegetarian": true,
       "isVegan": false,
       "isSpicy": true
     },
@@ -1000,7 +1000,7 @@ window.menuData = {
       "priceEuro": 13.5,
       "isAvailable": true,
       "displayOrder": 5,
-      "isVegetarian": false,
+      "isVegetarian": true,
       "isVegan": false,
       "isSpicy": true
     },
@@ -1012,7 +1012,7 @@ window.menuData = {
       "priceEuro": 13.5,
       "isAvailable": true,
       "displayOrder": 6,
-      "isVegetarian": false,
+      "isVegetarian": true,
       "isVegan": false,
       "isSpicy": true
     },
@@ -1024,7 +1024,7 @@ window.menuData = {
       "priceEuro": 13.5,
       "isAvailable": true,
       "displayOrder": 7,
-      "isVegetarian": false,
+      "isVegetarian": true,
       "isVegan": false,
       "isSpicy": false
     },
@@ -1036,7 +1036,7 @@ window.menuData = {
       "priceEuro": 13.5,
       "isAvailable": true,
       "displayOrder": 8,
-      "isVegetarian": false,
+      "isVegetarian": true,
       "isVegan": false,
       "isSpicy": false
     },
@@ -1048,7 +1048,7 @@ window.menuData = {
       "priceEuro": 13.5,
       "isAvailable": true,
       "displayOrder": 9,
-      "isVegetarian": false,
+      "isVegetarian": true,
       "isVegan": false,
       "isSpicy": false
     },
@@ -1060,7 +1060,7 @@ window.menuData = {
       "priceEuro": 13.5,
       "isAvailable": true,
       "displayOrder": 10,
-      "isVegetarian": false,
+      "isVegetarian": true,
       "isVegan": false,
       "isSpicy": false
     },

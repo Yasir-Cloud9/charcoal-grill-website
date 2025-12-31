@@ -12,6 +12,8 @@ console.log('app.js is running');
 
 // Store original menu data for filtering
 let originalMenuData = null;
+// Current filter state: 'all' or 'veg'
+let currentFilter = 'all';
 
 // Read menu data on page load
 document.addEventListener('DOMContentLoaded', function() {
@@ -28,6 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set up search functionality
     setupSearch();
+    
+    // Set up vegetarian filter toggle
+    setupVegetarianFilter();
     
     // Set up dark mode toggle
     setupDarkMode();
@@ -59,19 +64,27 @@ function renderMenu(menuData, isSearchMode = false) {
 
   // In search mode, show only items without category headers
   if (isSearchMode) {
-    const filteredItems = menuItems
-      .filter(item => item.isAvailable)
-      .sort((a, b) => {
-        // Sort by category displayOrder first, then by item displayOrder
-        const categoryA = categories.find(cat => cat.id === a.categoryId);
-        const categoryB = categories.find(cat => cat.id === b.categoryId);
-        if (categoryA && categoryB) {
-          if (categoryA.displayOrder !== categoryB.displayOrder) {
-            return categoryA.displayOrder - categoryB.displayOrder;
-          }
+    let filteredItems = menuItems
+      .filter(item => item.isAvailable !== false); // Treat missing isAvailable as true
+    
+    // Apply vegetarian filter if active
+    if (currentFilter === 'veg') {
+      filteredItems = filteredItems.filter(item => item.isVegetarian === true);
+    }
+    
+    filteredItems = filteredItems.sort((a, b) => {
+      // Sort by category displayOrder first, then by item displayOrder
+      const categoryA = categories.find(cat => cat.id === a.categoryId);
+      const categoryB = categories.find(cat => cat.id === b.categoryId);
+      if (categoryA && categoryB) {
+        if (categoryA.displayOrder !== categoryB.displayOrder) {
+          return categoryA.displayOrder - categoryB.displayOrder;
         }
-        return a.displayOrder - b.displayOrder;
-      });
+      }
+      const orderA = a.displayOrder !== undefined ? a.displayOrder : 999;
+      const orderB = b.displayOrder !== undefined ? b.displayOrder : 999;
+      return orderA - orderB;
+    });
 
     // Create a container for search results
     const resultsContainer = document.createElement('div');
@@ -124,9 +137,20 @@ function renderMenu(menuData, isSearchMode = false) {
   // Create a category section for each category
   sortedCategories.forEach(category => {
     // Get items for this category, sorted by displayOrder
-    const categoryItems = menuItems
-      .filter(item => item.categoryId === category.id && item.isAvailable)
-      .sort((a, b) => a.displayOrder - b.displayOrder);
+    // Apply vegetarian filter if active
+    let categoryItems = menuItems
+      .filter(item => item.categoryId === category.id && (item.isAvailable !== false));
+    
+    // Apply vegetarian filter if active
+    if (currentFilter === 'veg') {
+      categoryItems = categoryItems.filter(item => item.isVegetarian === true);
+    }
+    
+    categoryItems = categoryItems.sort((a, b) => {
+      const orderA = a.displayOrder !== undefined ? a.displayOrder : 999;
+      const orderB = b.displayOrder !== undefined ? b.displayOrder : 999;
+      return orderA - orderB;
+    });
 
     // Skip categories with no items (filtering behavior: hide empty categories)
     if (categoryItems.length === 0) {
@@ -301,22 +325,25 @@ function toggleCategory(categoryId) {
  * @returns {Object} Filtered menu data with matching items only
  */
 function filterMenuData(query) {
-  if (!query || query.trim() === '') {
-    // Return original data if search is empty
-    return originalMenuData;
+  const { categories, menuItems } = originalMenuData;
+  let filteredItems = menuItems;
+
+  // Apply search filter if query exists
+  if (query && query.trim() !== '') {
+    const searchTerm = query.toLowerCase().trim();
+    // Filter ONLY menu items that match the search query (case-insensitive)
+    // Search matches if the query appears in item name OR description
+    filteredItems = filteredItems.filter(item => {
+      const nameMatch = item.name.toLowerCase().includes(searchTerm);
+      const descMatch = item.description.toLowerCase().includes(searchTerm);
+      return nameMatch || descMatch;
+    });
   }
 
-  const searchTerm = query.toLowerCase().trim();
-  const { categories, menuItems } = originalMenuData;
-
-  // Filter ONLY menu items that match the search query (case-insensitive)
-  // Search matches if the query appears in item name OR description
-  // Categories are NOT searched - they are only shown if they contain matching items
-  const filteredItems = menuItems.filter(item => {
-    const nameMatch = item.name.toLowerCase().includes(searchTerm);
-    const descMatch = item.description.toLowerCase().includes(searchTerm);
-    return nameMatch || descMatch;
-  });
+  // Apply vegetarian filter if active
+  if (currentFilter === 'veg') {
+    filteredItems = filteredItems.filter(item => item.isVegetarian === true);
+  }
 
   // Return filtered data structure with only matching items
   // Categories array is unchanged - renderMenu will only show categories with matching items
@@ -349,6 +376,64 @@ function setupSearch() {
       renderMenu(filteredData, true);
     }
   });
+}
+
+/**
+ * Sets up the vegetarian filter toggle
+ */
+function setupVegetarianFilter() {
+  const filterAll = document.getElementById('filter-all');
+  const filterVeg = document.getElementById('filter-veg');
+  const searchInput = document.getElementById('search-input');
+
+  if (!filterAll || !filterVeg) {
+    console.error('Filter buttons not found');
+    return;
+  }
+
+  // Update button styles based on active filter
+  function updateFilterButtons() {
+    if (currentFilter === 'all') {
+      filterAll.className = 'px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 bg-white dark:bg-gray-800 text-stone-900 dark:text-gray-100 shadow-sm';
+      filterVeg.className = 'px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 text-stone-600 dark:text-gray-400 hover:text-stone-900 dark:hover:text-gray-100';
+    } else {
+      filterAll.className = 'px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 text-stone-600 dark:text-gray-400 hover:text-stone-900 dark:hover:text-gray-100';
+      filterVeg.className = 'px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200 bg-white dark:bg-gray-800 text-stone-900 dark:text-gray-100 shadow-sm';
+    }
+  }
+
+  // Filter All button click
+  filterAll.addEventListener('click', function() {
+    currentFilter = 'all';
+    updateFilterButtons();
+    
+    // Re-render menu with current search query
+    const query = searchInput ? searchInput.value : '';
+    if (!query || query.trim() === '') {
+      renderMenu(originalMenuData, false);
+    } else {
+      const filteredData = filterMenuData(query);
+      renderMenu(filteredData, true);
+    }
+  });
+
+  // Filter Veg button click
+  filterVeg.addEventListener('click', function() {
+    currentFilter = 'veg';
+    updateFilterButtons();
+    
+    // Re-render menu with current search query
+    const query = searchInput ? searchInput.value : '';
+    if (!query || query.trim() === '') {
+      renderMenu(originalMenuData, false);
+    } else {
+      const filteredData = filterMenuData(query);
+      renderMenu(filteredData, true);
+    }
+  });
+
+  // Initialize button styles
+  updateFilterButtons();
 }
 
 /**
