@@ -52,7 +52,10 @@
                 alt="Charcoal grill flames" 
                 class="w-full h-full object-cover"
             >
-            <div class="absolute inset-0 bg-black/60"></div>
+            <div class="absolute inset-0 bg-black/35 dark:bg-black/55"></div>
+
+            <!-- Bottom fade: to parchment in light, to black in dark -->
+            <div class="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-parchment-bg dark:to-black"></div>
         </div>
         
         <!-- Hero Content -->
@@ -81,7 +84,13 @@
     </section>
 
     <!-- Sticky Header -->
-    <header class="sticky top-0 z-50 bg-white/95 dark:bg-dark-bg backdrop-blur-sm border-b border-stone-200 dark:border-dark-border">
+    <header class="relative sticky top-0 z-50 bg-white/95 dark:bg-black backdrop-blur-sm shadow-[0_10px_30px_-25px_rgba(0,0,0,0.35)] dark:shadow-[0_18px_45px_-35px_rgba(0,0,0,0.95)]">
+        <!-- Downward depth (no upward line look) -->
+        <div class="absolute inset-x-0 bottom-0 h-px bg-stone-200/80 dark:bg-white/10"></div>
+        <div class="absolute inset-x-0 bottom-0 h-8 pointer-events-none
+                    bg-gradient-to-b from-black/0 to-black/10
+                    dark:from-black/0 dark:to-black/60"></div>
+
         <div class="max-w-4xl mx-auto px-4 py-3 md:py-4">
           <div class="w-full flex items-center justify-between gap-3">
             <!-- Search + Filters (left group) -->
@@ -151,7 +160,7 @@
     <main class="max-w-4xl mx-auto px-4 py-6 md:py-8">
         <!-- Customer Menu View -->
         <section id="customer-view" class="w-full">
-            <div id="menu-container" class="space-y-4 md:space-y-6"></div>
+            <div id="menu-container" class="space-y-3 md:space-y-4"></div>
         </section>
 
         <!-- Admin View -->
