@@ -101,7 +101,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item header with name and price (price in top-right)
       const itemHeader = document.createElement('div');
-      itemHeader.className = 'flex justify-between items-start mb-2';
+      itemHeader.className = 'flex justify-between items-start mb-1 md:mb-2';
 
       // Item name
       const itemName = document.createElement('h3');
@@ -110,7 +110,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item price (top-right, ember-accent, medium weight)
       const itemPrice = document.createElement('p');
-      itemPrice.className = 'text-lg md:text-xl font-medium text-ember-accent dark:text-ember-accent flex-shrink-0';
+      itemPrice.className = 'text-base sm:text-lg md:text-xl font-medium text-ember-accent dark:text-ember-accent flex-shrink-0';
       itemPrice.textContent = `€${item.priceEuro.toFixed(2)}`;
 
       itemHeader.appendChild(itemName);
@@ -118,7 +118,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item description
       const itemDesc = document.createElement('p');
-      itemDesc.className = 'text-sm text-slate-500 dark:text-text-muted-dark leading-relaxed mt-1';
+      itemDesc.className = 'text-sm text-slate-500 dark:text-text-muted-dark leading-relaxed mt-0.5 md:mt-1';
       itemDesc.textContent = item.description;
 
       itemDiv.appendChild(itemHeader);
@@ -229,7 +229,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item header with name and price (price in top-right)
       const itemHeader = document.createElement('div');
-      itemHeader.className = 'flex justify-between items-start mb-2';
+      itemHeader.className = 'flex justify-between items-start mb-1 md:mb-2';
 
       // Item name (modern sans-serif, medium weight, normal casing)
       const itemName = document.createElement('h3');
@@ -238,7 +238,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item price (modern sans-serif, medium weight, accent color)
       const itemPrice = document.createElement('p');
-      itemPrice.className = 'text-lg md:text-xl font-medium text-ember-accent dark:text-ember-accent flex-shrink-0';
+      itemPrice.className = 'text-base sm:text-lg md:text-xl font-medium text-ember-accent dark:text-ember-accent flex-shrink-0';
       itemPrice.textContent = `€${item.priceEuro.toFixed(2)}`;
 
       itemHeader.appendChild(itemName);
@@ -246,7 +246,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item description (modern sans-serif, smaller, softer color)
       const itemDesc = document.createElement('p');
-      itemDesc.className = 'text-sm text-slate-500 dark:text-text-muted-dark leading-relaxed mt-1';
+      itemDesc.className = 'text-sm text-slate-500 dark:text-text-muted-dark leading-relaxed mt-0.5 md:mt-1';
       itemDesc.textContent = item.description;
 
       itemDiv.appendChild(itemHeader);
