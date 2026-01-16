@@ -95,11 +95,13 @@ function renderMenu(menuData, isSearchMode = false) {
       // Add border-t for all items except the last one
       const isLastItem = index === filteredItems.length - 1;
       const borderClass = isLastItem ? '' : 'border-b border-stone-200 dark:border-dark-border';
-      itemDiv.className = `p-4 md:p-5 bg-parchment-card dark:bg-dark-card border border-stone-200 dark:border-dark-border rounded-xl shadow-sm ${borderClass} hover:scale-[1.01] transition-all duration-200 mb-3 md:mb-4`;
+
+      // Mobile density tweaks: smaller padding on mobile
+      itemDiv.className = `p-2.5 sm:p-3 md:p-5 bg-parchment-card dark:bg-dark-card border border-stone-200 dark:border-dark-border rounded-xl shadow-sm ${borderClass} hover:scale-[1.01] transition-all duration-200 mb-2 sm:mb-3 md:mb-4`;
 
       // Item header with name and price (price in top-right)
       const itemHeader = document.createElement('div');
-      itemHeader.className = 'flex justify-between items-start mb-2';
+      itemHeader.className = 'flex justify-between items-start mb-1 md:mb-2';
 
       // Item name
       const itemName = document.createElement('h3');
@@ -108,7 +110,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item price (top-right, ember-accent, medium weight)
       const itemPrice = document.createElement('p');
-      itemPrice.className = 'text-lg md:text-xl font-medium text-ember-accent dark:text-ember-accent flex-shrink-0';
+      itemPrice.className = 'text-base sm:text-lg md:text-xl font-medium text-ember-accent dark:text-ember-accent flex-shrink-0';
       itemPrice.textContent = `€${item.priceEuro.toFixed(2)}`;
 
       itemHeader.appendChild(itemName);
@@ -116,7 +118,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item description
       const itemDesc = document.createElement('p');
-      itemDesc.className = 'text-sm text-slate-500 dark:text-text-muted-dark leading-relaxed mt-1';
+      itemDesc.className = 'text-sm text-slate-500 dark:text-text-muted-dark leading-relaxed mt-0.5 md:mt-1';
       itemDesc.textContent = item.description;
 
       itemDiv.appendChild(itemHeader);
@@ -158,28 +160,32 @@ function renderMenu(menuData, isSearchMode = false) {
     }
 
     // Create category container
+    // NOTE: kept functionality same; only removed extra spacing via smaller mobile padding + no card mb stacking (optional).
     const categoryDiv = document.createElement('div');
-    categoryDiv.className = 'bg-parchment-card dark:bg-dark-card border border-stone-300 dark:border-dark-border rounded-lg overflow-hidden mb-4';
+    categoryDiv.className = 'bg-parchment-card dark:bg-dark-card border border-stone-300 dark:border-dark-border rounded-lg overflow-hidden';
 
     // Create category header (clickable) - styled like a physical menu folder
+    // Mobile density tweak: p-3 on mobile
     const categoryHeader = document.createElement('div');
-    categoryHeader.className = 'bg-parchment-card dark:bg-dark-card border-b border-stone-200 dark:border-dark-border hover:bg-stone-50 dark:hover:bg-gray-800/50 cursor-pointer transition-all duration-200 p-4 md:p-5 flex justify-between items-center';
+    categoryHeader.className = 'bg-parchment-card dark:bg-dark-card border-b border-stone-200 dark:border-dark-border hover:bg-stone-50 dark:hover:bg-gray-800/50 cursor-pointer transition-all duration-200 p-2.5 sm:p-3 md:p-5 flex justify-between items-center';
     categoryHeader.setAttribute('data-category-id', category.id);
     
     const headerContent = document.createElement('div');
     headerContent.className = 'flex-1';
     
     const categoryName = document.createElement('h2');
-    categoryName.className = 'text-2xl md:text-3xl font-normal text-text-ink dark:text-text-light tracking-widest font-clarendon';
+    // Mobile typography tweak: smaller on mobile + less tracking on mobile
+    categoryName.className = 'text-lg sm:text-xl md:text-2xl lg:text-3xl font-normal text-text-ink dark:text-text-light tracking-normal sm:tracking-wide md:tracking-widest font-clarendon';
     categoryName.textContent = category.name;
-    categoryName.style.letterSpacing = "0.05em";
-    
+    // Remove forced letter spacing (it makes mobile headings feel huge); tracking classes handle it responsively now.
+    // categoryName.style.letterSpacing = "0.05em";
     
     headerContent.appendChild(categoryName);
     
     if (category.description) {
       const categoryDesc = document.createElement('p');
-      categoryDesc.className = 'text-sm md:text-base text-slate-500 dark:text-text-muted-dark mt-1';
+      // Mobile typography tweak: smaller and tighter margin on mobile
+      categoryDesc.className = 'text-xs sm:text-sm md:text-base text-slate-500 dark:text-text-muted-dark mt-0.5 md:mt-1';
       categoryDesc.textContent = category.description;
       headerContent.appendChild(categoryDesc);
     }
@@ -207,8 +213,9 @@ function renderMenu(menuData, isSearchMode = false) {
     itemsContainer.style.opacity = '0';
 
     // Create items container (single column)
+    // Mobile density tweak: smaller padding on mobile
     const itemsGrid = document.createElement('div');
-    itemsGrid.className = 'p-4 md:p-5';
+    itemsGrid.className = 'p-2.5 sm:p-3 md:p-5';
 
     // Create menu items
     categoryItems.forEach((item, index) => {
@@ -216,11 +223,13 @@ function renderMenu(menuData, isSearchMode = false) {
       // Add border-t for all items except the first one (creates dividers between items)
       const isFirstItem = index === 0;
       const borderClass = isFirstItem ? '' : 'border-t border-stone-200 dark:border-dark-border';
-      itemDiv.className = `p-4 md:p-5 bg-parchment-card dark:bg-dark-card ${borderClass} hover:scale-[1.01] transition-all duration-200`;
+
+      // Mobile density tweak: p-3 on mobile
+      itemDiv.className = `p-2.5 sm:p-3 md:p-5 bg-parchment-card dark:bg-dark-card ${borderClass} hover:scale-[1.01] transition-all duration-200`;
 
       // Item header with name and price (price in top-right)
       const itemHeader = document.createElement('div');
-      itemHeader.className = 'flex justify-between items-start mb-2';
+      itemHeader.className = 'flex justify-between items-start mb-1 md:mb-2';
 
       // Item name (modern sans-serif, medium weight, normal casing)
       const itemName = document.createElement('h3');
@@ -229,7 +238,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item price (modern sans-serif, medium weight, accent color)
       const itemPrice = document.createElement('p');
-      itemPrice.className = 'text-lg md:text-xl font-medium text-ember-accent dark:text-ember-accent flex-shrink-0';
+      itemPrice.className = 'text-base sm:text-lg md:text-xl font-medium text-ember-accent dark:text-ember-accent flex-shrink-0';
       itemPrice.textContent = `€${item.priceEuro.toFixed(2)}`;
 
       itemHeader.appendChild(itemName);
@@ -237,7 +246,7 @@ function renderMenu(menuData, isSearchMode = false) {
 
       // Item description (modern sans-serif, smaller, softer color)
       const itemDesc = document.createElement('p');
-      itemDesc.className = 'text-sm text-slate-500 dark:text-text-muted-dark leading-relaxed mt-1';
+      itemDesc.className = 'text-sm text-slate-500 dark:text-text-muted-dark leading-relaxed mt-0.5 md:mt-1';
       itemDesc.textContent = item.description;
 
       itemDiv.appendChild(itemHeader);
@@ -459,12 +468,14 @@ function setupDarkMode() {
     return;
   }
 
-  // Check for saved theme preference or default to light
-  const savedTheme = localStorage.getItem('theme') || 'light';
+  // Check for saved theme preference or default to DARK
+  const savedTheme = localStorage.getItem('theme') || 'dark';
   if (savedTheme === 'dark') {
     htmlElement.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
   } else {
     htmlElement.classList.remove('dark');
+    localStorage.setItem('theme', 'light');
   }
 
   // Toggle dark mode on button click
@@ -480,4 +491,3 @@ function setupDarkMode() {
     }
   });
 }
-
