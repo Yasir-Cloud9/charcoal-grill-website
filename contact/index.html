@@ -48,274 +48,137 @@
 
 <body class="min-h-screen font-inter bg-parchment-bg text-text-ink dark:bg-dark-bg dark:text-text-light transition-colors duration-200">
 
-  <!-- PAGE BACKGROUND (menu hero image, 3/4 height then fades away) -->
   <div class="fixed inset-0 -z-10 pointer-events-none">
-    <!-- Image -->
-    <img
-      src="../assets/images/flame.jpg"
-      alt=""
-      class="h-full w-full object-cover object-center"
-    />
-
-    <!-- Darken overlay (so text is readable) -->
+    <img src="../assets/images/flame.jpg" alt="" class="h-full w-full object-cover object-center" />
     <div class="absolute inset-0 bg-black/45 dark:bg-black/60"></div>
-
-    <!-- Fade to page background at ~3/4 viewport height -->
-    <div
-      class="absolute inset-x-0 top-0 h-[75vh]
-             bg-gradient-to-b
-             from-transparent
-             via-black/10 dark:via-black/25
-             to-parchment-bg dark:to-black"
-    ></div>
-
-    <!-- Ensure BELOW the fade is fully the page bg (no "ghosting" on long pages) -->
+    <div class="absolute inset-x-0 top-0 h-[75vh] bg-gradient-to-b from-transparent via-black/10 dark:via-black/25 to-parchment-bg dark:to-black"></div>
     <div class="absolute inset-x-0 top-[75vh] bottom-0 bg-parchment-bg dark:bg-black"></div>
   </div>
 
-  <!-- Header (same vibe as menu page) -->
   <header class="relative">
     <div class="max-w-6xl mx-auto px-4 py-4">
       <div class="flex items-center justify-between gap-3">
-
-        <!-- Top-left branding -->
         <div class="flex items-center gap-3">
           <div class="rounded-xl bg-white/70 dark:bg-white/5 border border-stone-200/80 dark:border-white/10 backdrop-blur-md p-2">
             <svg class="w-6 h-6 text-ember-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"
-                d="M12 3c2.5 3 4 5.2 4 8a4 4 0 11-8 0c0-2.8 1.5-5 4-8z" />
-              <path stroke-linecap="round" stroke-width="1.6" d="M5 16h14" />
-              <path stroke-linecap="round" stroke-width="1.6" d="M6 19h12" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 3c2.5 3 4 5.2 4 8a4 4 0 11-8 0c0-2.8 1.5-5 4-8z" />
+              <path stroke-linecap="round" stroke-width="1.6" d="M5 16h14" /><path stroke-linecap="round" stroke-width="1.6" d="M6 19h12" />
             </svg>
           </div>
-
           <div class="leading-tight">
-            <div class="font-graduate tracking-wide text-grill-gold text-lg sm:text-xl">
-              The Charcoal Grill
-            </div>
-            <div class="text-xs sm:text-sm text-stone-600 dark:text-white/75">
-              Cafe &amp; Bistro
-            </div>
+            <div class="font-graduate tracking-wide text-grill-gold text-lg sm:text-xl">The Charcoal Grill</div>
+            <div class="text-xs sm:text-sm text-stone-600 dark:text-white/75">Cafe & Bistro</div>
           </div>
         </div>
-
-        <!-- Right side: segmented nav + theme toggle (no layout change) -->
         <div class="flex items-center gap-2">
-          <nav
-            class="inline-flex items-center gap-1 p-1 rounded-xl
-                   bg-black/10 dark:bg-black/20
-                   backdrop-blur-md
-                   border border-stone-200/70 dark:border-white/10
-                   opacity-95 hover:opacity-100 transition"
-            aria-label="Primary"
-          >
-            <a
-              href="/"
-              class="inline-flex items-center justify-center
-                     w-24 sm:w-28
-                     px-3 py-2 rounded-lg
-                     text-stone-700 hover:text-stone-900
-                     dark:text-white/90 dark:hover:text-white
-                     hover:bg-black/5 dark:hover:bg-white/10
-                     focus:outline-none focus:ring-2 focus:ring-black/10 dark:focus:ring-white/30
-                     transition text-sm font-medium"
-            >
-              Home
-            </a>
-
+          <nav class="inline-flex items-center gap-1 p-1 rounded-xl bg-black/10 dark:bg-black/20 backdrop-blur-md border border-stone-200/70 dark:border-white/10 opacity-95 hover:opacity-100 transition" aria-label="Primary">
+            <a href="/" class="inline-flex items-center justify-center w-24 sm:w-28 px-3 py-2 rounded-lg text-stone-700 hover:text-stone-900 dark:text-white/90 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition text-sm font-medium">Home</a>
             <div class="mx-1 h-5 w-px bg-stone-300/70 dark:bg-white/15"></div>
-
-            <a
-              href="/menu/"
-              class="inline-flex items-center justify-center
-                     w-24 sm:w-28
-                     px-3 py-2 rounded-lg
-                     text-stone-700 hover:text-stone-900
-                     dark:text-white/90 dark:hover:text-white
-                     hover:bg-black/5 dark:hover:bg-white/10
-                     focus:outline-none focus:ring-2 focus:ring-black/10 dark:focus:ring-white/30
-                     transition text-sm font-medium"
-            >
-              Menu
-            </a>
+            <a href="/menu/" class="inline-flex items-center justify-center w-24 sm:w-28 px-3 py-2 rounded-lg text-stone-700 hover:text-stone-900 dark:text-white/90 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition text-sm font-medium">Menu</a>
           </nav>
         </div>
-
       </div>
     </div>
   </header>
 
-  <!-- Page content (structure stays) -->
   <main class="max-w-4xl mx-auto px-4 pb-16">
-
-    <!-- Title -->
     <section class="pt-10 sm:pt-12 text-center">
-      <h1 class="font-playfair text-5xl sm:text-6xl text-text-ink dark:text-white">
-        Contact Us
-      </h1>
-      <p class="mt-3 text-stone-600 dark:text-white/70 max-w-2xl mx-auto">
-        We’re here to help — reach us for reservations, takeaway queries, or anything else.
-      </p>
+      <h1 class="font-playfair text-5xl sm:text-6xl text-text-ink dark:text-white">Contact Us</h1>
+      <p class="mt-3 text-stone-600 dark:text-white/70 max-w-2xl mx-auto">We’re here to help — reach us for reservations, takeaway queries, or anything else.</p>
     </section>
 
-    <!-- Details + Hours -->
     <section class="mt-10">
-      <div class="rounded-3xl border border-stone-200/80 dark:border-white/10
-                  bg-parchment-card/90 dark:bg-white/5
-                  backdrop-blur-md
-                  shadow-[0_30px_70px_-55px_rgba(0,0,0,0.25)]
-                  dark:shadow-[0_30px_70px_-55px_rgba(0,0,0,0.95)]
-                  p-6 sm:p-8">
+      <div class="rounded-3xl border border-stone-200/80 dark:border-white/10 bg-parchment-card/90 dark:bg-white/5 backdrop-blur-md shadow-[0_30px_70px_-55px_rgba(0,0,0,0.25)] dark:shadow-[0_30px_70px_-55px_rgba(0,0,0,0.95)] p-6 sm:p-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <!-- Restaurant details -->
           <div>
             <h2 class="font-playfair text-3xl text-text-ink dark:text-white">Restaurant details</h2>
-
             <div class="mt-5 space-y-4 text-sm sm:text-base">
               <div>
                 <div class="text-stone-500 dark:text-white/50 uppercase tracking-wider text-xs font-semibold">Address</div>
-                <div class="mt-1 text-text-ink dark:text-white/90">
+                <a href="https://www.google.com/maps/dir//The+Charcoal+Grill,+Payne's+Ln,+Athlone,+Co.+Westmeath" target="_blank" class="mt-1 block text-text-ink dark:text-white/90 hover:text-ember-accent transition underline decoration-stone-300 dark:decoration-white/20">
                   Payne's Ln, Athlone, Co. Westmeath, N37 A5R2
-                </div>
+                </a>
               </div>
-
               <div>
                 <div class="text-stone-500 dark:text-white/50 uppercase tracking-wider text-xs font-semibold">Phone</div>
-                <a class="mt-1 inline-block text-text-ink dark:text-white/90 underline decoration-stone-300 dark:decoration-white/20 hover:decoration-ember-accent"
-                   href="tel:+353906470777">(090) 647 0777</a>
+                <a class="mt-1 inline-block text-text-ink dark:text-white/90 underline decoration-stone-300 dark:decoration-white/20 hover:text-ember-accent transition" href="tel:+353906470777">(090) 647 0777</a>
               </div>
-
               <div>
                 <div class="text-stone-500 dark:text-white/50 uppercase tracking-wider text-xs font-semibold">Email</div>
-                <a class="mt-1 inline-block text-text-ink dark:text-white/90 underline decoration-stone-300 dark:decoration-white/20 hover:decoration-ember-accent"
-                   href="mailto:charcoal.grill.athlone@gmail.com">charcoal.grill.athlone@gmail.com</a>
+                <a class="mt-1 inline-block text-text-ink dark:text-white/90 underline decoration-stone-300 dark:decoration-white/20 hover:text-ember-accent transition" href="mailto:charcoal.grill.athlone@gmail.com">charcoal.grill.athlone@gmail.com</a>
               </div>
-
-              <div class="text-stone-500 dark:text-white/60 text-sm">
-                No WhatsApp — phone or email works best.
-              </div>
+              <div class="text-stone-500 dark:text-white/60 text-sm italic">No WhatsApp — phone or email works best.</div>
             </div>
           </div>
-
-          <!-- Opening hours -->
           <div>
             <h2 class="font-playfair text-3xl text-text-ink dark:text-white">Opening hours</h2>
-
             <div class="mt-5 rounded-2xl border border-stone-200/70 dark:border-white/10 overflow-hidden">
               <div class="divide-y divide-stone-200/70 dark:divide-white/10">
-                <div class="flex items-center justify-between px-4 py-3 bg-white/50 dark:bg-black/10">
-                  <span class="text-stone-700 dark:text-white/80">Sunday</span>
-                  <span class="text-stone-900 dark:text-white">12–10 pm</span>
-                </div>
-                <div class="flex items-center justify-between px-4 py-3 bg-white/40 dark:bg-black/5">
-                  <span class="text-stone-700 dark:text-white/80">Monday</span>
-                  <span class="text-stone-900 dark:text-white">12–10 pm</span>
-                </div>
-                <div class="flex items-center justify-between px-4 py-3 bg-white/50 dark:bg-black/10">
-                  <span class="text-stone-700 dark:text-white/80">Tuesday</span>
-                  <span class="text-stone-900 dark:text-white">12–10 pm</span>
-                </div>
-                <div class="flex items-center justify-between px-4 py-3 bg-white/40 dark:bg-black/5">
-                  <span class="text-stone-700 dark:text-white/80">Wednesday</span>
-                  <span class="text-stone-900 dark:text-white">12–10 pm</span>
-                </div>
-                <div class="flex items-center justify-between px-4 py-3 bg-white/50 dark:bg-black/10">
-                  <span class="text-stone-700 dark:text-white/80">Thursday</span>
-                  <span class="text-stone-900 dark:text-white">12–10 pm</span>
-                </div>
-                <div class="flex items-center justify-between px-4 py-3 bg-white/40 dark:bg-black/5">
-                  <span class="text-stone-700 dark:text-white/80">Friday</span>
-                  <span class="text-stone-900 dark:text-white">12–11 pm</span>
-                </div>
-                <div class="flex items-center justify-between px-4 py-3 bg-white/50 dark:bg-black/10">
-                  <span class="text-stone-700 dark:text-white/80">Saturday</span>
-                  <span class="text-stone-900 dark:text-white">12–11 pm</span>
-                </div>
+                <div class="flex items-center justify-between px-4 py-3 bg-white/50 dark:bg-black/10"><span class="text-stone-700 dark:text-white/80">Sunday</span><span class="text-stone-900 dark:text-white">12–10 pm</span></div>
+                <div class="flex items-center justify-between px-4 py-3 bg-white/40 dark:bg-black/5"><span class="text-stone-700 dark:text-white/80">Monday</span><span class="text-stone-900 dark:text-white">12–10 pm</span></div>
+                <div class="flex items-center justify-between px-4 py-3 bg-white/50 dark:bg-black/10"><span class="text-stone-700 dark:text-white/80">Tuesday</span><span class="text-stone-900 dark:text-white">12–10 pm</span></div>
+                <div class="flex items-center justify-between px-4 py-3 bg-white/40 dark:bg-black/5"><span class="text-stone-700 dark:text-white/80">Wednesday</span><span class="text-stone-900 dark:text-white">12–10 pm</span></div>
+                <div class="flex items-center justify-between px-4 py-3 bg-white/50 dark:bg-black/10"><span class="text-stone-700 dark:text-white/80">Thursday</span><span class="text-stone-900 dark:text-white">12–10 pm</span></div>
+                <div class="flex items-center justify-between px-4 py-3 bg-white/40 dark:bg-black/5"><span class="text-stone-700 dark:text-white/80">Friday</span><span class="text-stone-900 dark:text-white">12–11 pm</span></div>
+                <div class="flex items-center justify-between px-4 py-3 bg-white/50 dark:bg-black/10"><span class="text-stone-700 dark:text-white/80">Saturday</span><span class="text-stone-900 dark:text-white">12–11 pm</span></div>
               </div>
-            </div>
-
-            <div class="mt-3 text-xs text-stone-500 dark:text-white/50">
-              Hours may vary on holidays.
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Map -->
     <section class="mt-10">
-      <div class="rounded-3xl border border-stone-200/80 dark:border-white/10
-                  bg-parchment-card/90 dark:bg-white/5
-                  backdrop-blur-md
-                  shadow-[0_30px_70px_-55px_rgba(0,0,0,0.25)]
-                  dark:shadow-[0_30px_70px_-55px_rgba(0,0,0,0.95)]
-                  p-6 sm:p-8">
+      <div class="rounded-3xl border border-stone-200/80 dark:border-white/10 bg-parchment-card/90 dark:bg-white/5 backdrop-blur-md shadow-[0_30px_70px_-55px_rgba(0,0,0,0.25)] dark:shadow-[0_30px_70px_-55px_rgba(0,0,0,0.95)] p-6 sm:p-8">
         <div class="flex items-center justify-between gap-4">
           <h2 class="font-playfair text-3xl text-text-ink dark:text-white">Map</h2>
-          <a
-            class="text-sm font-medium underline decoration-stone-300 dark:decoration-white/20 hover:decoration-ember-accent text-stone-700 dark:text-white/80"
-            href="https://www.google.com/maps/search/?api=1&query=Payne%27s%20Ln%2C%20Athlone%2C%20Co.%20Westmeath%2C%20N37%20A5R2"
-            target="_blank" rel="noopener"
-          >
-            Open in Google Maps
+          <a class="text-sm font-medium underline decoration-stone-300 dark:decoration-white/20 hover:text-ember-accent text-stone-700 dark:text-white/80" href="https://www.google.com/maps/dir//The+Charcoal+Grill,+Payne's+Ln,+Athlone,+Co.+Westmeath" target="_blank">Open in Google Maps</a>
+        </div>
+        <div class="mt-5 overflow-hidden rounded-2xl border border-stone-200/70 dark:border-white/10 bg-white">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2386.536413224716!2d-7.939527723439063!3d53.4217316701833!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x485c4904fc72ac41%3A0x235bfd92363b38eb!2sThe%20Charcoal%20Grill!5e0!3m2!1sen!2sie!4v1700000000000!5m2!1sen!2sie" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-10">
+      <div class="rounded-3xl border border-stone-200/80 dark:border-white/10 bg-parchment-card/90 dark:bg-white/5 backdrop-blur-md shadow-[0_30px_70px_-55px_rgba(0,0,0,0.25)] dark:shadow-[0_30px_70px_-55px_rgba(0,0,0,0.95)] p-6 sm:p-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div class="flex-1">
+            <h2 class="font-playfair text-3xl text-text-ink dark:text-white">Google reviews</h2>
+            <div class="mt-2 flex items-center gap-2">
+                <span class="text-xl font-bold text-grill-gold">4.2</span>
+                <div class="flex text-ember-accent">
+                    <span>★</span><span>★</span><span>★</span><span>★</span><span class="text-stone-300">★</span>
+                </div>
+                <span class="text-sm text-stone-500 dark:text-white/60">(978 Reviews)</span>
+            </div>
+          </div>
+          <a class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-ember-accent text-white hover:bg-ember-dark transition font-semibold text-sm shadow-lg shadow-ember-accent/20" href="https://search.google.com/local/reviews?placeid=ChIJwazj_ARJXEgR6zg7NpL9WwI" target="_blank">
+            Read All Reviews <span aria-hidden="true">→</span>
           </a>
         </div>
 
-        <div class="mt-5 overflow-hidden rounded-2xl border border-stone-200/70 dark:border-white/10 bg-white">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2377.6285767105337!2d-7.9367805867748356!3d53.421468468983434!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x485c4904fce3acc1%3A0x25bfd92363b38eb!2sCHARCOAL%20GRILL!5e0!3m2!1sen!2sie!4v1768779137763!5m2!1sen!2sie"
-            width="800"
-            height="400"
-            style="border:0;"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
+        <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-5 rounded-2xl bg-black/5 dark:bg-white/5 border border-stone-200/50 dark:border-white/5">
+                <p class="text-sm italic text-stone-700 dark:text-white/80 leading-relaxed">
+                    "We went in as a family of 4. The service was great and the food was really good. Great value for money. The platter was very tasty... We will definitely be back."
+                </p>
+                <div class="mt-4 font-graduate text-xs tracking-wider text-grill-gold">— SIMON MCCANN</div>
+            </div>
+            <div class="p-5 rounded-2xl bg-black/5 dark:bg-white/5 border border-stone-200/50 dark:border-white/5">
+                <p class="text-sm italic text-stone-700 dark:text-white/80 leading-relaxed">
+                    "The food was excellent, the service was superb. The variety of food available and the quality of each is very impressive."
+                </p>
+                <div class="mt-4 font-graduate text-xs tracking-wider text-grill-gold">— BRIAN MALONE (LOCAL GUIDE)</div>
+            </div>
         </div>
       </div>
     </section>
 
-    <!-- Google reviews -->
-    <section class="mt-10">
-      <div class="rounded-3xl border border-stone-200/80 dark:border-white/10
-                  bg-parchment-card/90 dark:bg-white/5
-                  backdrop-blur-md
-                  shadow-[0_30px_70px_-55px_rgba(0,0,0,0.25)]
-                  dark:shadow-[0_30px_70px_-55px_rgba(0,0,0,0.95)]
-                  p-6 sm:p-8 flex items-center justify-between gap-4">
-        <div>
-          <h2 class="font-playfair text-3xl text-text-ink dark:text-white">Google reviews</h2>
-          <p class="mt-1 text-stone-600 dark:text-white/70 text-sm">See what customers are saying about us.</p>
-        </div>
-
-        <a
-          class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl
-                 bg-white/70 dark:bg-white/5
-                 text-stone-900 dark:text-white/90
-                 backdrop-blur-md border border-stone-200/80 dark:border-white/10
-                 hover:bg-white dark:hover:bg-white/10
-                 transition font-semibold text-sm"
-          href="https://search.google.com/local/reviews?placeid=ChIJwazj_ARJXEgR6zg7NpL9WwI"
-          target="_blank" rel="noopener"
-        >
-          Read Google Reviews <span aria-hidden="true">→</span>
-        </a>
-      </div>
-    </section>
-
-    <!-- Website support -->
-    <section class="mt-10 text-center">
-      <div class="text-sm text-stone-600 dark:text-white/70">
-        Website support: <a class="underline hover:decoration-ember-accent" href="mailto:charcoal.grill.athlone@gmail.com">charcoal.grill.athlone@gmail.com</a>
-      </div>
-    </section>
-
-    <!-- Footer -->
     <footer class="mt-10 text-center text-xs text-stone-500 dark:text-white/50">
       <div>© 2026 The Charcoal Grill</div>
       <div class="mt-1">Website by Yasir — Digital Menu Solutions</div>
     </footer>
-
   </main>
-
 </body>
 </html>
