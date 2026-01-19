@@ -89,9 +89,46 @@
         </div>
         <div class="flex items-center gap-2">
           <nav class="inline-flex items-center gap-1 p-1 rounded-xl bg-black/10 dark:bg-black/20 backdrop-blur-md border border-stone-200/70 dark:border-white/10 opacity-95 hover:opacity-100 transition" aria-label="Primary">
-            <a href="/" class="inline-flex items-center justify-center w-24 sm:w-28 px-3 py-2 rounded-lg text-stone-700 hover:text-stone-900 dark:text-white/90 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition text-sm font-medium">Home</a>
+            <a
+              href="/"
+              class="group inline-flex items-center justify-center gap-2
+                    w-10 h-10 sm:w-28 sm:h-auto
+                    px-0 sm:px-3 py-0 sm:py-2 rounded-lg
+                    text-stone-700 hover:text-stone-900
+                    dark:text-white/90 dark:hover:text-white
+                    hover:bg-black/5 dark:hover:bg-white/10
+                    transition text-sm font-medium"
+            >
+              <!-- icon (mobile) -->
+              <svg class="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1v-9.5z"/>
+              </svg>
+            
+              <!-- text (sm+) -->
+              <span class="hidden sm:inline text-sm font-medium">Home</span>
+            </a>
+          
             <div class="mx-1 h-5 w-px bg-stone-300/70 dark:bg-white/15"></div>
-            <a href="/menu/" class="inline-flex items-center justify-center w-24 sm:w-28 px-3 py-2 rounded-lg text-stone-700 hover:text-stone-900 dark:text-white/90 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition text-sm font-medium">Menu</a>
+            <a
+              href="/menu/"
+              class="group inline-flex items-center justify-center gap-2
+                    w-10 h-10 sm:w-28 sm:h-auto
+                    px-0 sm:px-3 py-0 sm:py-2 rounded-lg
+                    text-stone-700 hover:text-stone-900
+                    dark:text-white/90 dark:hover:text-white
+                    hover:bg-black/5 dark:hover:bg-white/10
+                    transition text-sm font-medium"
+            >
+              <!-- icon (mobile) -->
+              <svg class="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
+            
+              <!-- text (sm+) -->
+              <span class="hidden sm:inline text-sm font-medium">Menu</span>
+            </a>          
           </nav>
         </div>
       </div>
@@ -124,7 +161,6 @@
                 <div class="text-stone-500 dark:text-white/50 uppercase tracking-wider text-xs font-semibold">Email</div>
                 <a class="mt-1 inline-block text-text-ink dark:text-white/90 underline decoration-stone-300 dark:decoration-white/20 hover:text-ember-accent transition" href="mailto:charcoal.grill.athlone@gmail.com">charcoal.grill.athlone@gmail.com</a>
               </div>
-              <div class="text-stone-500 dark:text-white/60 text-sm italic">No WhatsApp — phone or email works best.</div>
             </div>
           </div>
           <div>
